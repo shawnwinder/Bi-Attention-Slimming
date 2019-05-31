@@ -1,0 +1,5797 @@
+[INFO] start running src/param_statistics.py ...
+[INFO] start running initialize ...
+[INFO] finish running initialize ...
+
+[INFO] start running build_validation_model ...
+[INFO] finish running build_validation_model ...
+
+name: "bat_slimming_validation_model"
+op {
+  input: "val_db_reader"
+  output: "data"
+  output: "label"
+  name: ""
+  type: "ImageInput"
+  arg {
+    name: "std_per_channel"
+    floats: 128.0
+    floats: 128.0
+    floats: 128.0
+  }
+  arg {
+    name: "scale"
+    i: 256
+  }
+  arg {
+    name: "use_gpu_transform"
+    i: 1
+  }
+  arg {
+    name: "mean_per_channel"
+    floats: 128.0
+    floats: 128.0
+    floats: 128.0
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "crop"
+    i: 224
+  }
+  arg {
+    name: "is_test"
+    i: 1
+  }
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "batch_size"
+    i: 32
+  }
+  arg {
+    name: "mirror"
+    i: 1
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "data"
+  output: "data"
+  name: ""
+  type: "StopGradient"
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "label"
+  output: "label"
+  name: ""
+  type: "StopGradient"
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "data"
+  input: "conv1_w"
+  input: "conv1_b"
+  output: "conv1"
+  name: ""
+  type: "Conv"
+  arg {
+    name: "kernel"
+    i: 7
+  }
+  arg {
+    name: "exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "pad"
+    i: 3
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "stride"
+    i: 2
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "conv1"
+  input: "res_conv1_bn_s"
+  input: "res_conv1_bn_b"
+  input: "res_conv1_bn_rm"
+  input: "res_conv1_bn_riv"
+  output: "res_conv1_bn"
+  name: ""
+  type: "SpatialBN"
+  arg {
+    name: "is_test"
+    i: 1
+  }
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "epsilon"
+    f: 9.99999974738e-06
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res_conv1_bn"
+  output: "res_conv1_bn"
+  name: ""
+  type: "Relu"
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res_conv1_bn"
+  output: "pool1"
+  name: ""
+  type: "MaxPool"
+  arg {
+    name: "kernel"
+    i: 3
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "pad"
+    i: 1
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "stride"
+    i: 2
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "pool1"
+  input: "res2_0_branch1_w"
+  output: "res2_0_branch1"
+  name: ""
+  type: "Conv"
+  arg {
+    name: "kernel"
+    i: 1
+  }
+  arg {
+    name: "exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "pad"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "stride"
+    i: 1
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res2_0_branch1"
+  input: "res2_0_branch1_bn_s"
+  input: "res2_0_branch1_bn_b"
+  input: "res2_0_branch1_bn_rm"
+  input: "res2_0_branch1_bn_riv"
+  output: "res2_0_branch1_bn"
+  name: ""
+  type: "SpatialBN"
+  arg {
+    name: "is_test"
+    i: 1
+  }
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "epsilon"
+    f: 9.99999974738e-06
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "pool1"
+  input: "res2_0_branch2a_w"
+  output: "res2_0_branch2a"
+  name: ""
+  type: "Conv"
+  arg {
+    name: "kernel"
+    i: 1
+  }
+  arg {
+    name: "exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "pad"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "stride"
+    i: 1
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res2_0_branch2a"
+  input: "res2_0_branch2a_bn_s"
+  input: "res2_0_branch2a_bn_b"
+  input: "res2_0_branch2a_bn_rm"
+  input: "res2_0_branch2a_bn_riv"
+  output: "res2_0_branch2a_bn"
+  name: ""
+  type: "SpatialBN"
+  arg {
+    name: "is_test"
+    i: 1
+  }
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "epsilon"
+    f: 9.99999974738e-06
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res2_0_branch2a_bn"
+  output: "res2_0_branch2a_bn"
+  name: ""
+  type: "Relu"
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res2_0_branch2a_bn"
+  input: "res2_0_branch2b_w"
+  output: "res2_0_branch2b"
+  name: ""
+  type: "Conv"
+  arg {
+    name: "kernel"
+    i: 3
+  }
+  arg {
+    name: "exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "pad"
+    i: 1
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "stride"
+    i: 1
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res2_0_branch2b"
+  input: "res2_0_branch2b_bn_s"
+  input: "res2_0_branch2b_bn_b"
+  input: "res2_0_branch2b_bn_rm"
+  input: "res2_0_branch2b_bn_riv"
+  output: "res2_0_branch2b_bn"
+  name: ""
+  type: "SpatialBN"
+  arg {
+    name: "is_test"
+    i: 1
+  }
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "epsilon"
+    f: 9.99999974738e-06
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res2_0_branch2b_bn"
+  output: "res2_0_branch2b_bn"
+  name: ""
+  type: "Relu"
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res2_0_branch2b_bn"
+  input: "res2_0_branch2c_w"
+  output: "res2_0_branch2c"
+  name: ""
+  type: "Conv"
+  arg {
+    name: "kernel"
+    i: 1
+  }
+  arg {
+    name: "exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "pad"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "stride"
+    i: 1
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res2_0_branch2c"
+  input: "res2_0_branch2c_bn_s"
+  input: "res2_0_branch2c_bn_b"
+  input: "res2_0_branch2c_bn_rm"
+  input: "res2_0_branch2c_bn_riv"
+  output: "res2_0_branch2c_bn"
+  name: ""
+  type: "SpatialBN"
+  arg {
+    name: "is_test"
+    i: 1
+  }
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "epsilon"
+    f: 9.99999974738e-06
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res2_0_branch2c_bn"
+  input: "res2_0_branch1_bn"
+  output: "res2_0_branch2c_bn"
+  name: ""
+  type: "Sum"
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res2_0_branch2c_bn"
+  output: "res2_0_branch2c_bn"
+  name: ""
+  type: "Relu"
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res2_0_branch2c_bn"
+  input: "res2_1_branch2a_w"
+  output: "res2_1_branch2a"
+  name: ""
+  type: "Conv"
+  arg {
+    name: "kernel"
+    i: 1
+  }
+  arg {
+    name: "exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "pad"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "stride"
+    i: 1
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res2_1_branch2a"
+  input: "res2_1_branch2a_bn_s"
+  input: "res2_1_branch2a_bn_b"
+  input: "res2_1_branch2a_bn_rm"
+  input: "res2_1_branch2a_bn_riv"
+  output: "res2_1_branch2a_bn"
+  name: ""
+  type: "SpatialBN"
+  arg {
+    name: "is_test"
+    i: 1
+  }
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "epsilon"
+    f: 9.99999974738e-06
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res2_1_branch2a_bn"
+  output: "res2_1_branch2a_bn"
+  name: ""
+  type: "Relu"
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res2_1_branch2a_bn"
+  input: "res2_1_branch2b_w"
+  output: "res2_1_branch2b"
+  name: ""
+  type: "Conv"
+  arg {
+    name: "kernel"
+    i: 3
+  }
+  arg {
+    name: "exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "pad"
+    i: 1
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "stride"
+    i: 1
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res2_1_branch2b"
+  input: "res2_1_branch2b_bn_s"
+  input: "res2_1_branch2b_bn_b"
+  input: "res2_1_branch2b_bn_rm"
+  input: "res2_1_branch2b_bn_riv"
+  output: "res2_1_branch2b_bn"
+  name: ""
+  type: "SpatialBN"
+  arg {
+    name: "is_test"
+    i: 1
+  }
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "epsilon"
+    f: 9.99999974738e-06
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res2_1_branch2b_bn"
+  output: "res2_1_branch2b_bn"
+  name: ""
+  type: "Relu"
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res2_1_branch2b_bn"
+  input: "res2_1_branch2c_w"
+  output: "res2_1_branch2c"
+  name: ""
+  type: "Conv"
+  arg {
+    name: "kernel"
+    i: 1
+  }
+  arg {
+    name: "exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "pad"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "stride"
+    i: 1
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res2_1_branch2c"
+  input: "res2_1_branch2c_bn_s"
+  input: "res2_1_branch2c_bn_b"
+  input: "res2_1_branch2c_bn_rm"
+  input: "res2_1_branch2c_bn_riv"
+  output: "res2_1_branch2c_bn"
+  name: ""
+  type: "SpatialBN"
+  arg {
+    name: "is_test"
+    i: 1
+  }
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "epsilon"
+    f: 9.99999974738e-06
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res2_1_branch2c_bn"
+  input: "res2_0_branch2c_bn"
+  output: "res2_1_branch2c_bn"
+  name: ""
+  type: "Sum"
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res2_1_branch2c_bn"
+  output: "res2_1_branch2c_bn"
+  name: ""
+  type: "Relu"
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res2_1_branch2c_bn"
+  input: "res2_2_branch2a_w"
+  output: "res2_2_branch2a"
+  name: ""
+  type: "Conv"
+  arg {
+    name: "kernel"
+    i: 1
+  }
+  arg {
+    name: "exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "pad"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "stride"
+    i: 1
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res2_2_branch2a"
+  input: "res2_2_branch2a_bn_s"
+  input: "res2_2_branch2a_bn_b"
+  input: "res2_2_branch2a_bn_rm"
+  input: "res2_2_branch2a_bn_riv"
+  output: "res2_2_branch2a_bn"
+  name: ""
+  type: "SpatialBN"
+  arg {
+    name: "is_test"
+    i: 1
+  }
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "epsilon"
+    f: 9.99999974738e-06
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res2_2_branch2a_bn"
+  output: "res2_2_branch2a_bn"
+  name: ""
+  type: "Relu"
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res2_2_branch2a_bn"
+  input: "res2_2_branch2b_w"
+  output: "res2_2_branch2b"
+  name: ""
+  type: "Conv"
+  arg {
+    name: "kernel"
+    i: 3
+  }
+  arg {
+    name: "exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "pad"
+    i: 1
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "stride"
+    i: 1
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res2_2_branch2b"
+  input: "res2_2_branch2b_bn_s"
+  input: "res2_2_branch2b_bn_b"
+  input: "res2_2_branch2b_bn_rm"
+  input: "res2_2_branch2b_bn_riv"
+  output: "res2_2_branch2b_bn"
+  name: ""
+  type: "SpatialBN"
+  arg {
+    name: "is_test"
+    i: 1
+  }
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "epsilon"
+    f: 9.99999974738e-06
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res2_2_branch2b_bn"
+  output: "res2_2_branch2b_bn"
+  name: ""
+  type: "Relu"
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res2_2_branch2b_bn"
+  input: "res2_2_branch2c_w"
+  output: "res2_2_branch2c"
+  name: ""
+  type: "Conv"
+  arg {
+    name: "kernel"
+    i: 1
+  }
+  arg {
+    name: "exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "pad"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "stride"
+    i: 1
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res2_2_branch2c"
+  input: "res2_2_branch2c_bn_s"
+  input: "res2_2_branch2c_bn_b"
+  input: "res2_2_branch2c_bn_rm"
+  input: "res2_2_branch2c_bn_riv"
+  output: "res2_2_branch2c_bn"
+  name: ""
+  type: "SpatialBN"
+  arg {
+    name: "is_test"
+    i: 1
+  }
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "epsilon"
+    f: 9.99999974738e-06
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res2_2_branch2c_bn"
+  input: "res2_1_branch2c_bn"
+  output: "res2_2_branch2c_bn"
+  name: ""
+  type: "Sum"
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res2_2_branch2c_bn"
+  output: "res2_2_branch2c_bn"
+  name: ""
+  type: "Relu"
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res2_2_branch2c_bn"
+  input: "res3_0_branch1_w"
+  output: "res3_0_branch1"
+  name: ""
+  type: "Conv"
+  arg {
+    name: "kernel"
+    i: 1
+  }
+  arg {
+    name: "exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "pad"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "stride"
+    i: 2
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res3_0_branch1"
+  input: "res3_0_branch1_bn_s"
+  input: "res3_0_branch1_bn_b"
+  input: "res3_0_branch1_bn_rm"
+  input: "res3_0_branch1_bn_riv"
+  output: "res3_0_branch1_bn"
+  name: ""
+  type: "SpatialBN"
+  arg {
+    name: "is_test"
+    i: 1
+  }
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "epsilon"
+    f: 9.99999974738e-06
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res2_2_branch2c_bn"
+  input: "res3_0_branch2a_w"
+  output: "res3_0_branch2a"
+  name: ""
+  type: "Conv"
+  arg {
+    name: "kernel"
+    i: 1
+  }
+  arg {
+    name: "exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "pad"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "stride"
+    i: 2
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res3_0_branch2a"
+  input: "res3_0_branch2a_bn_s"
+  input: "res3_0_branch2a_bn_b"
+  input: "res3_0_branch2a_bn_rm"
+  input: "res3_0_branch2a_bn_riv"
+  output: "res3_0_branch2a_bn"
+  name: ""
+  type: "SpatialBN"
+  arg {
+    name: "is_test"
+    i: 1
+  }
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "epsilon"
+    f: 9.99999974738e-06
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res3_0_branch2a_bn"
+  output: "res3_0_branch2a_bn"
+  name: ""
+  type: "Relu"
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res3_0_branch2a_bn"
+  input: "res3_0_branch2b_w"
+  output: "res3_0_branch2b"
+  name: ""
+  type: "Conv"
+  arg {
+    name: "kernel"
+    i: 3
+  }
+  arg {
+    name: "exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "pad"
+    i: 1
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "stride"
+    i: 1
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res3_0_branch2b"
+  input: "res3_0_branch2b_bn_s"
+  input: "res3_0_branch2b_bn_b"
+  input: "res3_0_branch2b_bn_rm"
+  input: "res3_0_branch2b_bn_riv"
+  output: "res3_0_branch2b_bn"
+  name: ""
+  type: "SpatialBN"
+  arg {
+    name: "is_test"
+    i: 1
+  }
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "epsilon"
+    f: 9.99999974738e-06
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res3_0_branch2b_bn"
+  output: "res3_0_branch2b_bn"
+  name: ""
+  type: "Relu"
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res3_0_branch2b_bn"
+  input: "res3_0_branch2c_w"
+  output: "res3_0_branch2c"
+  name: ""
+  type: "Conv"
+  arg {
+    name: "kernel"
+    i: 1
+  }
+  arg {
+    name: "exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "pad"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "stride"
+    i: 1
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res3_0_branch2c"
+  input: "res3_0_branch2c_bn_s"
+  input: "res3_0_branch2c_bn_b"
+  input: "res3_0_branch2c_bn_rm"
+  input: "res3_0_branch2c_bn_riv"
+  output: "res3_0_branch2c_bn"
+  name: ""
+  type: "SpatialBN"
+  arg {
+    name: "is_test"
+    i: 1
+  }
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "epsilon"
+    f: 9.99999974738e-06
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res3_0_branch2c_bn"
+  input: "res3_0_branch1_bn"
+  output: "res3_0_branch2c_bn"
+  name: ""
+  type: "Sum"
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res3_0_branch2c_bn"
+  output: "res3_0_branch2c_bn"
+  name: ""
+  type: "Relu"
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res3_0_branch2c_bn"
+  input: "res3_1_branch2a_w"
+  output: "res3_1_branch2a"
+  name: ""
+  type: "Conv"
+  arg {
+    name: "kernel"
+    i: 1
+  }
+  arg {
+    name: "exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "pad"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "stride"
+    i: 1
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res3_1_branch2a"
+  input: "res3_1_branch2a_bn_s"
+  input: "res3_1_branch2a_bn_b"
+  input: "res3_1_branch2a_bn_rm"
+  input: "res3_1_branch2a_bn_riv"
+  output: "res3_1_branch2a_bn"
+  name: ""
+  type: "SpatialBN"
+  arg {
+    name: "is_test"
+    i: 1
+  }
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "epsilon"
+    f: 9.99999974738e-06
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res3_1_branch2a_bn"
+  output: "res3_1_branch2a_bn"
+  name: ""
+  type: "Relu"
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res3_1_branch2a_bn"
+  input: "res3_1_branch2b_w"
+  output: "res3_1_branch2b"
+  name: ""
+  type: "Conv"
+  arg {
+    name: "kernel"
+    i: 3
+  }
+  arg {
+    name: "exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "pad"
+    i: 1
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "stride"
+    i: 1
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res3_1_branch2b"
+  input: "res3_1_branch2b_bn_s"
+  input: "res3_1_branch2b_bn_b"
+  input: "res3_1_branch2b_bn_rm"
+  input: "res3_1_branch2b_bn_riv"
+  output: "res3_1_branch2b_bn"
+  name: ""
+  type: "SpatialBN"
+  arg {
+    name: "is_test"
+    i: 1
+  }
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "epsilon"
+    f: 9.99999974738e-06
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res3_1_branch2b_bn"
+  output: "res3_1_branch2b_bn"
+  name: ""
+  type: "Relu"
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res3_1_branch2b_bn"
+  input: "res3_1_branch2c_w"
+  output: "res3_1_branch2c"
+  name: ""
+  type: "Conv"
+  arg {
+    name: "kernel"
+    i: 1
+  }
+  arg {
+    name: "exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "pad"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "stride"
+    i: 1
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res3_1_branch2c"
+  input: "res3_1_branch2c_bn_s"
+  input: "res3_1_branch2c_bn_b"
+  input: "res3_1_branch2c_bn_rm"
+  input: "res3_1_branch2c_bn_riv"
+  output: "res3_1_branch2c_bn"
+  name: ""
+  type: "SpatialBN"
+  arg {
+    name: "is_test"
+    i: 1
+  }
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "epsilon"
+    f: 9.99999974738e-06
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res3_1_branch2c_bn"
+  input: "res3_0_branch2c_bn"
+  output: "res3_1_branch2c_bn"
+  name: ""
+  type: "Sum"
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res3_1_branch2c_bn"
+  output: "res3_1_branch2c_bn"
+  name: ""
+  type: "Relu"
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res3_1_branch2c_bn"
+  input: "res3_2_branch2a_w"
+  output: "res3_2_branch2a"
+  name: ""
+  type: "Conv"
+  arg {
+    name: "kernel"
+    i: 1
+  }
+  arg {
+    name: "exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "pad"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "stride"
+    i: 1
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res3_2_branch2a"
+  input: "res3_2_branch2a_bn_s"
+  input: "res3_2_branch2a_bn_b"
+  input: "res3_2_branch2a_bn_rm"
+  input: "res3_2_branch2a_bn_riv"
+  output: "res3_2_branch2a_bn"
+  name: ""
+  type: "SpatialBN"
+  arg {
+    name: "is_test"
+    i: 1
+  }
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "epsilon"
+    f: 9.99999974738e-06
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res3_2_branch2a_bn"
+  output: "res3_2_branch2a_bn"
+  name: ""
+  type: "Relu"
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res3_2_branch2a_bn"
+  input: "res3_2_branch2b_w"
+  output: "res3_2_branch2b"
+  name: ""
+  type: "Conv"
+  arg {
+    name: "kernel"
+    i: 3
+  }
+  arg {
+    name: "exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "pad"
+    i: 1
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "stride"
+    i: 1
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res3_2_branch2b"
+  input: "res3_2_branch2b_bn_s"
+  input: "res3_2_branch2b_bn_b"
+  input: "res3_2_branch2b_bn_rm"
+  input: "res3_2_branch2b_bn_riv"
+  output: "res3_2_branch2b_bn"
+  name: ""
+  type: "SpatialBN"
+  arg {
+    name: "is_test"
+    i: 1
+  }
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "epsilon"
+    f: 9.99999974738e-06
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res3_2_branch2b_bn"
+  output: "res3_2_branch2b_bn"
+  name: ""
+  type: "Relu"
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res3_2_branch2b_bn"
+  input: "res3_2_branch2c_w"
+  output: "res3_2_branch2c"
+  name: ""
+  type: "Conv"
+  arg {
+    name: "kernel"
+    i: 1
+  }
+  arg {
+    name: "exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "pad"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "stride"
+    i: 1
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res3_2_branch2c"
+  input: "res3_2_branch2c_bn_s"
+  input: "res3_2_branch2c_bn_b"
+  input: "res3_2_branch2c_bn_rm"
+  input: "res3_2_branch2c_bn_riv"
+  output: "res3_2_branch2c_bn"
+  name: ""
+  type: "SpatialBN"
+  arg {
+    name: "is_test"
+    i: 1
+  }
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "epsilon"
+    f: 9.99999974738e-06
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res3_2_branch2c_bn"
+  input: "res3_1_branch2c_bn"
+  output: "res3_2_branch2c_bn"
+  name: ""
+  type: "Sum"
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res3_2_branch2c_bn"
+  output: "res3_2_branch2c_bn"
+  name: ""
+  type: "Relu"
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res3_2_branch2c_bn"
+  input: "res3_3_branch2a_w"
+  output: "res3_3_branch2a"
+  name: ""
+  type: "Conv"
+  arg {
+    name: "kernel"
+    i: 1
+  }
+  arg {
+    name: "exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "pad"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "stride"
+    i: 1
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res3_3_branch2a"
+  input: "res3_3_branch2a_bn_s"
+  input: "res3_3_branch2a_bn_b"
+  input: "res3_3_branch2a_bn_rm"
+  input: "res3_3_branch2a_bn_riv"
+  output: "res3_3_branch2a_bn"
+  name: ""
+  type: "SpatialBN"
+  arg {
+    name: "is_test"
+    i: 1
+  }
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "epsilon"
+    f: 9.99999974738e-06
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res3_3_branch2a_bn"
+  output: "res3_3_branch2a_bn"
+  name: ""
+  type: "Relu"
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res3_3_branch2a_bn"
+  input: "res3_3_branch2b_w"
+  output: "res3_3_branch2b"
+  name: ""
+  type: "Conv"
+  arg {
+    name: "kernel"
+    i: 3
+  }
+  arg {
+    name: "exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "pad"
+    i: 1
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "stride"
+    i: 1
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res3_3_branch2b"
+  input: "res3_3_branch2b_bn_s"
+  input: "res3_3_branch2b_bn_b"
+  input: "res3_3_branch2b_bn_rm"
+  input: "res3_3_branch2b_bn_riv"
+  output: "res3_3_branch2b_bn"
+  name: ""
+  type: "SpatialBN"
+  arg {
+    name: "is_test"
+    i: 1
+  }
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "epsilon"
+    f: 9.99999974738e-06
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res3_3_branch2b_bn"
+  output: "res3_3_branch2b_bn"
+  name: ""
+  type: "Relu"
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res3_3_branch2b_bn"
+  input: "res3_3_branch2c_w"
+  output: "res3_3_branch2c"
+  name: ""
+  type: "Conv"
+  arg {
+    name: "kernel"
+    i: 1
+  }
+  arg {
+    name: "exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "pad"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "stride"
+    i: 1
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res3_3_branch2c"
+  input: "res3_3_branch2c_bn_s"
+  input: "res3_3_branch2c_bn_b"
+  input: "res3_3_branch2c_bn_rm"
+  input: "res3_3_branch2c_bn_riv"
+  output: "res3_3_branch2c_bn"
+  name: ""
+  type: "SpatialBN"
+  arg {
+    name: "is_test"
+    i: 1
+  }
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "epsilon"
+    f: 9.99999974738e-06
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res3_3_branch2c_bn"
+  input: "res3_2_branch2c_bn"
+  output: "res3_3_branch2c_bn"
+  name: ""
+  type: "Sum"
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res3_3_branch2c_bn"
+  output: "res3_3_branch2c_bn"
+  name: ""
+  type: "Relu"
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res3_3_branch2c_bn"
+  input: "res4_0_branch1_w"
+  output: "res4_0_branch1"
+  name: ""
+  type: "Conv"
+  arg {
+    name: "kernel"
+    i: 1
+  }
+  arg {
+    name: "exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "pad"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "stride"
+    i: 2
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res4_0_branch1"
+  input: "res4_0_branch1_bn_s"
+  input: "res4_0_branch1_bn_b"
+  input: "res4_0_branch1_bn_rm"
+  input: "res4_0_branch1_bn_riv"
+  output: "res4_0_branch1_bn"
+  name: ""
+  type: "SpatialBN"
+  arg {
+    name: "is_test"
+    i: 1
+  }
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "epsilon"
+    f: 9.99999974738e-06
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res3_3_branch2c_bn"
+  input: "res4_0_branch2a_w"
+  output: "res4_0_branch2a"
+  name: ""
+  type: "Conv"
+  arg {
+    name: "kernel"
+    i: 1
+  }
+  arg {
+    name: "exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "pad"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "stride"
+    i: 2
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res4_0_branch2a"
+  input: "res4_0_branch2a_bn_s"
+  input: "res4_0_branch2a_bn_b"
+  input: "res4_0_branch2a_bn_rm"
+  input: "res4_0_branch2a_bn_riv"
+  output: "res4_0_branch2a_bn"
+  name: ""
+  type: "SpatialBN"
+  arg {
+    name: "is_test"
+    i: 1
+  }
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "epsilon"
+    f: 9.99999974738e-06
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res4_0_branch2a_bn"
+  output: "res4_0_branch2a_bn"
+  name: ""
+  type: "Relu"
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res4_0_branch2a_bn"
+  input: "res4_0_branch2b_w"
+  output: "res4_0_branch2b"
+  name: ""
+  type: "Conv"
+  arg {
+    name: "kernel"
+    i: 3
+  }
+  arg {
+    name: "exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "pad"
+    i: 1
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "stride"
+    i: 1
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res4_0_branch2b"
+  input: "res4_0_branch2b_bn_s"
+  input: "res4_0_branch2b_bn_b"
+  input: "res4_0_branch2b_bn_rm"
+  input: "res4_0_branch2b_bn_riv"
+  output: "res4_0_branch2b_bn"
+  name: ""
+  type: "SpatialBN"
+  arg {
+    name: "is_test"
+    i: 1
+  }
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "epsilon"
+    f: 9.99999974738e-06
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res4_0_branch2b_bn"
+  output: "res4_0_branch2b_bn"
+  name: ""
+  type: "Relu"
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res4_0_branch2b_bn"
+  input: "res4_0_branch2c_w"
+  output: "res4_0_branch2c"
+  name: ""
+  type: "Conv"
+  arg {
+    name: "kernel"
+    i: 1
+  }
+  arg {
+    name: "exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "pad"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "stride"
+    i: 1
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res4_0_branch2c"
+  input: "res4_0_branch2c_bn_s"
+  input: "res4_0_branch2c_bn_b"
+  input: "res4_0_branch2c_bn_rm"
+  input: "res4_0_branch2c_bn_riv"
+  output: "res4_0_branch2c_bn"
+  name: ""
+  type: "SpatialBN"
+  arg {
+    name: "is_test"
+    i: 1
+  }
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "epsilon"
+    f: 9.99999974738e-06
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res4_0_branch2c_bn"
+  input: "res4_0_branch1_bn"
+  output: "res4_0_branch2c_bn"
+  name: ""
+  type: "Sum"
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res4_0_branch2c_bn"
+  output: "res4_0_branch2c_bn"
+  name: ""
+  type: "Relu"
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res4_0_branch2c_bn"
+  input: "res4_1_branch2a_w"
+  output: "res4_1_branch2a"
+  name: ""
+  type: "Conv"
+  arg {
+    name: "kernel"
+    i: 1
+  }
+  arg {
+    name: "exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "pad"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "stride"
+    i: 1
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res4_1_branch2a"
+  input: "res4_1_branch2a_bn_s"
+  input: "res4_1_branch2a_bn_b"
+  input: "res4_1_branch2a_bn_rm"
+  input: "res4_1_branch2a_bn_riv"
+  output: "res4_1_branch2a_bn"
+  name: ""
+  type: "SpatialBN"
+  arg {
+    name: "is_test"
+    i: 1
+  }
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "epsilon"
+    f: 9.99999974738e-06
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res4_1_branch2a_bn"
+  output: "res4_1_branch2a_bn"
+  name: ""
+  type: "Relu"
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res4_1_branch2a_bn"
+  input: "res4_1_branch2b_w"
+  output: "res4_1_branch2b"
+  name: ""
+  type: "Conv"
+  arg {
+    name: "kernel"
+    i: 3
+  }
+  arg {
+    name: "exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "pad"
+    i: 1
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "stride"
+    i: 1
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res4_1_branch2b"
+  input: "res4_1_branch2b_bn_s"
+  input: "res4_1_branch2b_bn_b"
+  input: "res4_1_branch2b_bn_rm"
+  input: "res4_1_branch2b_bn_riv"
+  output: "res4_1_branch2b_bn"
+  name: ""
+  type: "SpatialBN"
+  arg {
+    name: "is_test"
+    i: 1
+  }
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "epsilon"
+    f: 9.99999974738e-06
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res4_1_branch2b_bn"
+  output: "res4_1_branch2b_bn"
+  name: ""
+  type: "Relu"
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res4_1_branch2b_bn"
+  input: "res4_1_branch2c_w"
+  output: "res4_1_branch2c"
+  name: ""
+  type: "Conv"
+  arg {
+    name: "kernel"
+    i: 1
+  }
+  arg {
+    name: "exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "pad"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "stride"
+    i: 1
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res4_1_branch2c"
+  input: "res4_1_branch2c_bn_s"
+  input: "res4_1_branch2c_bn_b"
+  input: "res4_1_branch2c_bn_rm"
+  input: "res4_1_branch2c_bn_riv"
+  output: "res4_1_branch2c_bn"
+  name: ""
+  type: "SpatialBN"
+  arg {
+    name: "is_test"
+    i: 1
+  }
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "epsilon"
+    f: 9.99999974738e-06
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res4_1_branch2c_bn"
+  input: "res4_0_branch2c_bn"
+  output: "res4_1_branch2c_bn"
+  name: ""
+  type: "Sum"
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res4_1_branch2c_bn"
+  output: "res4_1_branch2c_bn"
+  name: ""
+  type: "Relu"
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res4_1_branch2c_bn"
+  input: "res4_2_branch2a_w"
+  output: "res4_2_branch2a"
+  name: ""
+  type: "Conv"
+  arg {
+    name: "kernel"
+    i: 1
+  }
+  arg {
+    name: "exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "pad"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "stride"
+    i: 1
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res4_2_branch2a"
+  input: "res4_2_branch2a_bn_s"
+  input: "res4_2_branch2a_bn_b"
+  input: "res4_2_branch2a_bn_rm"
+  input: "res4_2_branch2a_bn_riv"
+  output: "res4_2_branch2a_bn"
+  name: ""
+  type: "SpatialBN"
+  arg {
+    name: "is_test"
+    i: 1
+  }
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "epsilon"
+    f: 9.99999974738e-06
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res4_2_branch2a_bn"
+  output: "res4_2_branch2a_bn"
+  name: ""
+  type: "Relu"
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res4_2_branch2a_bn"
+  input: "res4_2_branch2b_w"
+  output: "res4_2_branch2b"
+  name: ""
+  type: "Conv"
+  arg {
+    name: "kernel"
+    i: 3
+  }
+  arg {
+    name: "exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "pad"
+    i: 1
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "stride"
+    i: 1
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res4_2_branch2b"
+  input: "res4_2_branch2b_bn_s"
+  input: "res4_2_branch2b_bn_b"
+  input: "res4_2_branch2b_bn_rm"
+  input: "res4_2_branch2b_bn_riv"
+  output: "res4_2_branch2b_bn"
+  name: ""
+  type: "SpatialBN"
+  arg {
+    name: "is_test"
+    i: 1
+  }
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "epsilon"
+    f: 9.99999974738e-06
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res4_2_branch2b_bn"
+  output: "res4_2_branch2b_bn"
+  name: ""
+  type: "Relu"
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res4_2_branch2b_bn"
+  input: "res4_2_branch2c_w"
+  output: "res4_2_branch2c"
+  name: ""
+  type: "Conv"
+  arg {
+    name: "kernel"
+    i: 1
+  }
+  arg {
+    name: "exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "pad"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "stride"
+    i: 1
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res4_2_branch2c"
+  input: "res4_2_branch2c_bn_s"
+  input: "res4_2_branch2c_bn_b"
+  input: "res4_2_branch2c_bn_rm"
+  input: "res4_2_branch2c_bn_riv"
+  output: "res4_2_branch2c_bn"
+  name: ""
+  type: "SpatialBN"
+  arg {
+    name: "is_test"
+    i: 1
+  }
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "epsilon"
+    f: 9.99999974738e-06
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res4_2_branch2c_bn"
+  input: "res4_1_branch2c_bn"
+  output: "res4_2_branch2c_bn"
+  name: ""
+  type: "Sum"
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res4_2_branch2c_bn"
+  output: "res4_2_branch2c_bn"
+  name: ""
+  type: "Relu"
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res4_2_branch2c_bn"
+  input: "res4_3_branch2a_w"
+  output: "res4_3_branch2a"
+  name: ""
+  type: "Conv"
+  arg {
+    name: "kernel"
+    i: 1
+  }
+  arg {
+    name: "exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "pad"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "stride"
+    i: 1
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res4_3_branch2a"
+  input: "res4_3_branch2a_bn_s"
+  input: "res4_3_branch2a_bn_b"
+  input: "res4_3_branch2a_bn_rm"
+  input: "res4_3_branch2a_bn_riv"
+  output: "res4_3_branch2a_bn"
+  name: ""
+  type: "SpatialBN"
+  arg {
+    name: "is_test"
+    i: 1
+  }
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "epsilon"
+    f: 9.99999974738e-06
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res4_3_branch2a_bn"
+  output: "res4_3_branch2a_bn"
+  name: ""
+  type: "Relu"
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res4_3_branch2a_bn"
+  input: "res4_3_branch2b_w"
+  output: "res4_3_branch2b"
+  name: ""
+  type: "Conv"
+  arg {
+    name: "kernel"
+    i: 3
+  }
+  arg {
+    name: "exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "pad"
+    i: 1
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "stride"
+    i: 1
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res4_3_branch2b"
+  input: "res4_3_branch2b_bn_s"
+  input: "res4_3_branch2b_bn_b"
+  input: "res4_3_branch2b_bn_rm"
+  input: "res4_3_branch2b_bn_riv"
+  output: "res4_3_branch2b_bn"
+  name: ""
+  type: "SpatialBN"
+  arg {
+    name: "is_test"
+    i: 1
+  }
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "epsilon"
+    f: 9.99999974738e-06
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res4_3_branch2b_bn"
+  output: "res4_3_branch2b_bn"
+  name: ""
+  type: "Relu"
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res4_3_branch2b_bn"
+  input: "res4_3_branch2c_w"
+  output: "res4_3_branch2c"
+  name: ""
+  type: "Conv"
+  arg {
+    name: "kernel"
+    i: 1
+  }
+  arg {
+    name: "exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "pad"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "stride"
+    i: 1
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res4_3_branch2c"
+  input: "res4_3_branch2c_bn_s"
+  input: "res4_3_branch2c_bn_b"
+  input: "res4_3_branch2c_bn_rm"
+  input: "res4_3_branch2c_bn_riv"
+  output: "res4_3_branch2c_bn"
+  name: ""
+  type: "SpatialBN"
+  arg {
+    name: "is_test"
+    i: 1
+  }
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "epsilon"
+    f: 9.99999974738e-06
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res4_3_branch2c_bn"
+  input: "res4_2_branch2c_bn"
+  output: "res4_3_branch2c_bn"
+  name: ""
+  type: "Sum"
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res4_3_branch2c_bn"
+  output: "res4_3_branch2c_bn"
+  name: ""
+  type: "Relu"
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res4_3_branch2c_bn"
+  input: "res4_4_branch2a_w"
+  output: "res4_4_branch2a"
+  name: ""
+  type: "Conv"
+  arg {
+    name: "kernel"
+    i: 1
+  }
+  arg {
+    name: "exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "pad"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "stride"
+    i: 1
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res4_4_branch2a"
+  input: "res4_4_branch2a_bn_s"
+  input: "res4_4_branch2a_bn_b"
+  input: "res4_4_branch2a_bn_rm"
+  input: "res4_4_branch2a_bn_riv"
+  output: "res4_4_branch2a_bn"
+  name: ""
+  type: "SpatialBN"
+  arg {
+    name: "is_test"
+    i: 1
+  }
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "epsilon"
+    f: 9.99999974738e-06
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res4_4_branch2a_bn"
+  output: "res4_4_branch2a_bn"
+  name: ""
+  type: "Relu"
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res4_4_branch2a_bn"
+  input: "res4_4_branch2b_w"
+  output: "res4_4_branch2b"
+  name: ""
+  type: "Conv"
+  arg {
+    name: "kernel"
+    i: 3
+  }
+  arg {
+    name: "exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "pad"
+    i: 1
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "stride"
+    i: 1
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res4_4_branch2b"
+  input: "res4_4_branch2b_bn_s"
+  input: "res4_4_branch2b_bn_b"
+  input: "res4_4_branch2b_bn_rm"
+  input: "res4_4_branch2b_bn_riv"
+  output: "res4_4_branch2b_bn"
+  name: ""
+  type: "SpatialBN"
+  arg {
+    name: "is_test"
+    i: 1
+  }
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "epsilon"
+    f: 9.99999974738e-06
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res4_4_branch2b_bn"
+  output: "res4_4_branch2b_bn"
+  name: ""
+  type: "Relu"
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res4_4_branch2b_bn"
+  input: "res4_4_branch2c_w"
+  output: "res4_4_branch2c"
+  name: ""
+  type: "Conv"
+  arg {
+    name: "kernel"
+    i: 1
+  }
+  arg {
+    name: "exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "pad"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "stride"
+    i: 1
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res4_4_branch2c"
+  input: "res4_4_branch2c_bn_s"
+  input: "res4_4_branch2c_bn_b"
+  input: "res4_4_branch2c_bn_rm"
+  input: "res4_4_branch2c_bn_riv"
+  output: "res4_4_branch2c_bn"
+  name: ""
+  type: "SpatialBN"
+  arg {
+    name: "is_test"
+    i: 1
+  }
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "epsilon"
+    f: 9.99999974738e-06
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res4_4_branch2c_bn"
+  input: "res4_3_branch2c_bn"
+  output: "res4_4_branch2c_bn"
+  name: ""
+  type: "Sum"
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res4_4_branch2c_bn"
+  output: "res4_4_branch2c_bn"
+  name: ""
+  type: "Relu"
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res4_4_branch2c_bn"
+  input: "res4_5_branch2a_w"
+  output: "res4_5_branch2a"
+  name: ""
+  type: "Conv"
+  arg {
+    name: "kernel"
+    i: 1
+  }
+  arg {
+    name: "exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "pad"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "stride"
+    i: 1
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res4_5_branch2a"
+  input: "res4_5_branch2a_bn_s"
+  input: "res4_5_branch2a_bn_b"
+  input: "res4_5_branch2a_bn_rm"
+  input: "res4_5_branch2a_bn_riv"
+  output: "res4_5_branch2a_bn"
+  name: ""
+  type: "SpatialBN"
+  arg {
+    name: "is_test"
+    i: 1
+  }
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "epsilon"
+    f: 9.99999974738e-06
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res4_5_branch2a_bn"
+  output: "res4_5_branch2a_bn"
+  name: ""
+  type: "Relu"
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res4_5_branch2a_bn"
+  input: "res4_5_branch2b_w"
+  output: "res4_5_branch2b"
+  name: ""
+  type: "Conv"
+  arg {
+    name: "kernel"
+    i: 3
+  }
+  arg {
+    name: "exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "pad"
+    i: 1
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "stride"
+    i: 1
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res4_5_branch2b"
+  input: "res4_5_branch2b_bn_s"
+  input: "res4_5_branch2b_bn_b"
+  input: "res4_5_branch2b_bn_rm"
+  input: "res4_5_branch2b_bn_riv"
+  output: "res4_5_branch2b_bn"
+  name: ""
+  type: "SpatialBN"
+  arg {
+    name: "is_test"
+    i: 1
+  }
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "epsilon"
+    f: 9.99999974738e-06
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res4_5_branch2b_bn"
+  output: "res4_5_branch2b_bn"
+  name: ""
+  type: "Relu"
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res4_5_branch2b_bn"
+  input: "res4_5_branch2c_w"
+  output: "res4_5_branch2c"
+  name: ""
+  type: "Conv"
+  arg {
+    name: "kernel"
+    i: 1
+  }
+  arg {
+    name: "exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "pad"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "stride"
+    i: 1
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res4_5_branch2c"
+  input: "res4_5_branch2c_bn_s"
+  input: "res4_5_branch2c_bn_b"
+  input: "res4_5_branch2c_bn_rm"
+  input: "res4_5_branch2c_bn_riv"
+  output: "res4_5_branch2c_bn"
+  name: ""
+  type: "SpatialBN"
+  arg {
+    name: "is_test"
+    i: 1
+  }
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "epsilon"
+    f: 9.99999974738e-06
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res4_5_branch2c_bn"
+  input: "res4_4_branch2c_bn"
+  output: "res4_5_branch2c_bn"
+  name: ""
+  type: "Sum"
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res4_5_branch2c_bn"
+  output: "res4_5_branch2c_bn"
+  name: ""
+  type: "Relu"
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res4_5_branch2c_bn"
+  input: "res5_0_branch1_w"
+  output: "res5_0_branch1"
+  name: ""
+  type: "Conv"
+  arg {
+    name: "kernel"
+    i: 1
+  }
+  arg {
+    name: "exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "pad"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "stride"
+    i: 2
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res5_0_branch1"
+  input: "res5_0_branch1_bn_s"
+  input: "res5_0_branch1_bn_b"
+  input: "res5_0_branch1_bn_rm"
+  input: "res5_0_branch1_bn_riv"
+  output: "res5_0_branch1_bn"
+  name: ""
+  type: "SpatialBN"
+  arg {
+    name: "is_test"
+    i: 1
+  }
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "epsilon"
+    f: 9.99999974738e-06
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res4_5_branch2c_bn"
+  input: "res5_0_branch2a_w"
+  output: "res5_0_branch2a"
+  name: ""
+  type: "Conv"
+  arg {
+    name: "kernel"
+    i: 1
+  }
+  arg {
+    name: "exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "pad"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "stride"
+    i: 2
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res5_0_branch2a"
+  input: "res5_0_branch2a_bn_s"
+  input: "res5_0_branch2a_bn_b"
+  input: "res5_0_branch2a_bn_rm"
+  input: "res5_0_branch2a_bn_riv"
+  output: "res5_0_branch2a_bn"
+  name: ""
+  type: "SpatialBN"
+  arg {
+    name: "is_test"
+    i: 1
+  }
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "epsilon"
+    f: 9.99999974738e-06
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res5_0_branch2a_bn"
+  output: "res5_0_branch2a_bn"
+  name: ""
+  type: "Relu"
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res5_0_branch2a_bn"
+  input: "res5_0_branch2b_w"
+  output: "res5_0_branch2b"
+  name: ""
+  type: "Conv"
+  arg {
+    name: "kernel"
+    i: 3
+  }
+  arg {
+    name: "exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "pad"
+    i: 1
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "stride"
+    i: 1
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res5_0_branch2b"
+  input: "res5_0_branch2b_bn_s"
+  input: "res5_0_branch2b_bn_b"
+  input: "res5_0_branch2b_bn_rm"
+  input: "res5_0_branch2b_bn_riv"
+  output: "res5_0_branch2b_bn"
+  name: ""
+  type: "SpatialBN"
+  arg {
+    name: "is_test"
+    i: 1
+  }
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "epsilon"
+    f: 9.99999974738e-06
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res5_0_branch2b_bn"
+  output: "res5_0_branch2b_bn"
+  name: ""
+  type: "Relu"
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res5_0_branch2b_bn"
+  input: "res5_0_branch2c_w"
+  output: "res5_0_branch2c"
+  name: ""
+  type: "Conv"
+  arg {
+    name: "kernel"
+    i: 1
+  }
+  arg {
+    name: "exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "pad"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "stride"
+    i: 1
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res5_0_branch2c"
+  input: "res5_0_branch2c_bn_s"
+  input: "res5_0_branch2c_bn_b"
+  input: "res5_0_branch2c_bn_rm"
+  input: "res5_0_branch2c_bn_riv"
+  output: "res5_0_branch2c_bn"
+  name: ""
+  type: "SpatialBN"
+  arg {
+    name: "is_test"
+    i: 1
+  }
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "epsilon"
+    f: 9.99999974738e-06
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res5_0_branch2c_bn"
+  input: "res5_0_branch1_bn"
+  output: "res5_0_branch2c_bn"
+  name: ""
+  type: "Sum"
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res5_0_branch2c_bn"
+  output: "res5_0_branch2c_bn"
+  name: ""
+  type: "Relu"
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res5_0_branch2c_bn"
+  input: "res5_1_branch2a_w"
+  output: "res5_1_branch2a"
+  name: ""
+  type: "Conv"
+  arg {
+    name: "kernel"
+    i: 1
+  }
+  arg {
+    name: "exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "pad"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "stride"
+    i: 1
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res5_1_branch2a"
+  input: "res5_1_branch2a_bn_s"
+  input: "res5_1_branch2a_bn_b"
+  input: "res5_1_branch2a_bn_rm"
+  input: "res5_1_branch2a_bn_riv"
+  output: "res5_1_branch2a_bn"
+  name: ""
+  type: "SpatialBN"
+  arg {
+    name: "is_test"
+    i: 1
+  }
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "epsilon"
+    f: 9.99999974738e-06
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res5_1_branch2a_bn"
+  output: "res5_1_branch2a_bn"
+  name: ""
+  type: "Relu"
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res5_1_branch2a_bn"
+  input: "res5_1_branch2b_w"
+  output: "res5_1_branch2b"
+  name: ""
+  type: "Conv"
+  arg {
+    name: "kernel"
+    i: 3
+  }
+  arg {
+    name: "exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "pad"
+    i: 1
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "stride"
+    i: 1
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res5_1_branch2b"
+  input: "res5_1_branch2b_bn_s"
+  input: "res5_1_branch2b_bn_b"
+  input: "res5_1_branch2b_bn_rm"
+  input: "res5_1_branch2b_bn_riv"
+  output: "res5_1_branch2b_bn"
+  name: ""
+  type: "SpatialBN"
+  arg {
+    name: "is_test"
+    i: 1
+  }
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "epsilon"
+    f: 9.99999974738e-06
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res5_1_branch2b_bn"
+  output: "res5_1_branch2b_bn"
+  name: ""
+  type: "Relu"
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res5_1_branch2b_bn"
+  input: "res5_1_branch2c_w"
+  output: "res5_1_branch2c"
+  name: ""
+  type: "Conv"
+  arg {
+    name: "kernel"
+    i: 1
+  }
+  arg {
+    name: "exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "pad"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "stride"
+    i: 1
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res5_1_branch2c"
+  input: "res5_1_branch2c_bn_s"
+  input: "res5_1_branch2c_bn_b"
+  input: "res5_1_branch2c_bn_rm"
+  input: "res5_1_branch2c_bn_riv"
+  output: "res5_1_branch2c_bn"
+  name: ""
+  type: "SpatialBN"
+  arg {
+    name: "is_test"
+    i: 1
+  }
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "epsilon"
+    f: 9.99999974738e-06
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res5_1_branch2c_bn"
+  input: "res5_0_branch2c_bn"
+  output: "res5_1_branch2c_bn"
+  name: ""
+  type: "Sum"
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res5_1_branch2c_bn"
+  output: "res5_1_branch2c_bn"
+  name: ""
+  type: "Relu"
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res5_1_branch2c_bn"
+  input: "res5_2_branch2a_w"
+  output: "res5_2_branch2a"
+  name: ""
+  type: "Conv"
+  arg {
+    name: "kernel"
+    i: 1
+  }
+  arg {
+    name: "exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "pad"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "stride"
+    i: 1
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res5_2_branch2a"
+  input: "res5_2_branch2a_bn_s"
+  input: "res5_2_branch2a_bn_b"
+  input: "res5_2_branch2a_bn_rm"
+  input: "res5_2_branch2a_bn_riv"
+  output: "res5_2_branch2a_bn"
+  name: ""
+  type: "SpatialBN"
+  arg {
+    name: "is_test"
+    i: 1
+  }
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "epsilon"
+    f: 9.99999974738e-06
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res5_2_branch2a_bn"
+  output: "res5_2_branch2a_bn"
+  name: ""
+  type: "Relu"
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res5_2_branch2a_bn"
+  input: "res5_2_branch2b_w"
+  output: "res5_2_branch2b"
+  name: ""
+  type: "Conv"
+  arg {
+    name: "kernel"
+    i: 3
+  }
+  arg {
+    name: "exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "pad"
+    i: 1
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "stride"
+    i: 1
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res5_2_branch2b"
+  input: "res5_2_branch2b_bn_s"
+  input: "res5_2_branch2b_bn_b"
+  input: "res5_2_branch2b_bn_rm"
+  input: "res5_2_branch2b_bn_riv"
+  output: "res5_2_branch2b_bn"
+  name: ""
+  type: "SpatialBN"
+  arg {
+    name: "is_test"
+    i: 1
+  }
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "epsilon"
+    f: 9.99999974738e-06
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res5_2_branch2b_bn"
+  output: "res5_2_branch2b_bn"
+  name: ""
+  type: "Relu"
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res5_2_branch2b_bn"
+  input: "res5_2_branch2c_w"
+  output: "res5_2_branch2c"
+  name: ""
+  type: "Conv"
+  arg {
+    name: "kernel"
+    i: 1
+  }
+  arg {
+    name: "exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "pad"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "stride"
+    i: 1
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res5_2_branch2c"
+  input: "res5_2_branch2c_bn_s"
+  input: "res5_2_branch2c_bn_b"
+  input: "res5_2_branch2c_bn_rm"
+  input: "res5_2_branch2c_bn_riv"
+  output: "res5_2_branch2c_bn"
+  name: ""
+  type: "SpatialBN"
+  arg {
+    name: "is_test"
+    i: 1
+  }
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "epsilon"
+    f: 9.99999974738e-06
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res5_2_branch2c_bn"
+  input: "res5_1_branch2c_bn"
+  output: "res5_2_branch2c_bn"
+  name: ""
+  type: "Sum"
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res5_2_branch2c_bn"
+  output: "res5_2_branch2c_bn"
+  name: ""
+  type: "Relu"
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "res5_2_branch2c_bn"
+  output: "osme_GAP1_1"
+  name: ""
+  type: "AveragePool"
+  arg {
+    name: "kernel"
+    i: 7
+  }
+  arg {
+    name: "stride"
+    i: 1
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "osme_GAP1_1"
+  input: "osme_fc1_1_w"
+  input: "osme_fc1_1_b"
+  output: "osme_fc1_1"
+  name: ""
+  type: "FC"
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "osme_fc1_1"
+  output: "osme_fc1_1"
+  name: ""
+  type: "Relu"
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "osme_fc1_1"
+  input: "osme_fc2_1_w"
+  input: "osme_fc2_1_b"
+  output: "osme_fc2_1"
+  name: ""
+  type: "FC"
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "osme_fc2_1"
+  output: "osme_mask_1"
+  name: ""
+  type: "Sigmoid"
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res5_2_branch2c_bn"
+  input: "osme_mask_1"
+  output: "osme_excitation_1"
+  name: ""
+  type: "Mul"
+  arg {
+    name: "broadcast"
+    i: 1
+  }
+  arg {
+    name: "axis"
+    i: 0
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "osme_excitation_1"
+  output: "osme_GAP2_1"
+  name: ""
+  type: "AveragePool"
+  arg {
+    name: "kernel"
+    i: 7
+  }
+  arg {
+    name: "stride"
+    i: 1
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "osme_GAP2_1"
+  input: "attention_1_w"
+  input: "attention_1_b"
+  output: "attention_1"
+  name: ""
+  type: "FC"
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res5_2_branch2c_bn"
+  output: "osme_GAP1_2"
+  name: ""
+  type: "AveragePool"
+  arg {
+    name: "kernel"
+    i: 7
+  }
+  arg {
+    name: "stride"
+    i: 1
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "osme_GAP1_2"
+  input: "osme_fc1_2_w"
+  input: "osme_fc1_2_b"
+  output: "osme_fc1_2"
+  name: ""
+  type: "FC"
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "osme_fc1_2"
+  output: "osme_fc1_2"
+  name: ""
+  type: "Relu"
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "osme_fc1_2"
+  input: "osme_fc2_2_w"
+  input: "osme_fc2_2_b"
+  output: "osme_fc2_2"
+  name: ""
+  type: "FC"
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "osme_fc2_2"
+  output: "osme_mask_2"
+  name: ""
+  type: "Sigmoid"
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "res5_2_branch2c_bn"
+  input: "osme_mask_2"
+  output: "osme_excitation_2"
+  name: ""
+  type: "Mul"
+  arg {
+    name: "broadcast"
+    i: 1
+  }
+  arg {
+    name: "axis"
+    i: 0
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "osme_excitation_2"
+  output: "osme_GAP2_2"
+  name: ""
+  type: "AveragePool"
+  arg {
+    name: "kernel"
+    i: 7
+  }
+  arg {
+    name: "stride"
+    i: 1
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+  engine: "CUDNN"
+}
+op {
+  input: "osme_GAP2_2"
+  input: "attention_2_w"
+  input: "attention_2_b"
+  output: "attention_2"
+  name: ""
+  type: "FC"
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "attention_1"
+  input: "attention_2"
+  output: "combined_feature"
+  output: "_combined_feature_concat_dims"
+  name: ""
+  type: "Concat"
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "combined_feature"
+  input: "bi_attention_pred_w"
+  input: "bi_attention_pred_b"
+  output: "bi_attention_pred"
+  name: ""
+  type: "FC"
+  arg {
+    name: "use_cudnn"
+    i: 1
+  }
+  arg {
+    name: "order"
+    s: "NCHW"
+  }
+  arg {
+    name: "cudnn_exhaustive_search"
+    i: 0
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "bi_attention_pred"
+  input: "label"
+  output: "softmax"
+  output: "softmax_loss"
+  name: ""
+  type: "SoftmaxWithLoss"
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "bi_attention_pred"
+  output: "left"
+  output: "right"
+  name: ""
+  type: "Split"
+  arg {
+    name: "split"
+    ints: 16
+    ints: 16
+  }
+  arg {
+    name: "axis"
+    i: 0
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "left"
+  input: "right"
+  output: "diff"
+  name: ""
+  type: "Sub"
+  arg {
+    name: "broadcast"
+    i: 1
+  }
+  arg {
+    name: "axis"
+    i: 0
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "diff"
+  output: "diff_abs"
+  name: ""
+  type: "Abs"
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "diff_abs"
+  input: "diff_abs"
+  output: "diff_square"
+  name: ""
+  type: "Mul"
+  arg {
+    name: "broadcast"
+    i: 1
+  }
+  arg {
+    name: "axis"
+    i: 0
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "diff_square"
+  output: "diff_square_sum"
+  name: ""
+  type: "ReduceBackSum"
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "diff_square_sum"
+  output: "diff_sqrt"
+  name: ""
+  type: "Sqrt"
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "diff_sqrt"
+  output: "diff_norm2"
+  name: ""
+  type: "ReduceBackSum"
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  output: "BATCHSIZE"
+  name: ""
+  type: "GivenTensorFill"
+  arg {
+    name: "shape"
+  }
+  arg {
+    name: "values"
+    floats: 32.0
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "diff_norm2"
+  input: "BATCHSIZE"
+  output: "pc_reg"
+  name: ""
+  type: "Div"
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  output: "pc_weight"
+  name: ""
+  type: "ConstantFill"
+  arg {
+    name: "value"
+    f: 0.00499999988824
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "pc_reg"
+  input: "pc_weight"
+  output: "weighted_pc_reg"
+  name: ""
+  type: "Mul"
+  arg {
+    name: "broadcast"
+    i: 1
+  }
+  arg {
+    name: "axis"
+    i: 0
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "softmax_loss"
+  input: "weighted_pc_reg"
+  output: "loss"
+  name: ""
+  type: "Sum"
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "softmax"
+  input: "label"
+  output: "accuracy"
+  name: ""
+  type: "Accuracy"
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+op {
+  input: "softmax"
+  input: "label"
+  output: "accuracy_5"
+  name: ""
+  type: "Accuracy"
+  arg {
+    name: "top_k"
+    i: 5
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+external_input: "val_db_reader"
+external_input: "conv1_w"
+external_input: "conv1_b"
+external_input: "res_conv1_bn_s"
+external_input: "res_conv1_bn_b"
+external_input: "res_conv1_bn_rm"
+external_input: "res_conv1_bn_riv"
+external_input: "res2_0_branch1_w"
+external_input: "res2_0_branch1_bn_s"
+external_input: "res2_0_branch1_bn_b"
+external_input: "res2_0_branch1_bn_rm"
+external_input: "res2_0_branch1_bn_riv"
+external_input: "res2_0_branch2a_w"
+external_input: "res2_0_branch2a_bn_s"
+external_input: "res2_0_branch2a_bn_b"
+external_input: "res2_0_branch2a_bn_rm"
+external_input: "res2_0_branch2a_bn_riv"
+external_input: "res2_0_branch2b_w"
+external_input: "res2_0_branch2b_bn_s"
+external_input: "res2_0_branch2b_bn_b"
+external_input: "res2_0_branch2b_bn_rm"
+external_input: "res2_0_branch2b_bn_riv"
+external_input: "res2_0_branch2c_w"
+external_input: "res2_0_branch2c_bn_s"
+external_input: "res2_0_branch2c_bn_b"
+external_input: "res2_0_branch2c_bn_rm"
+external_input: "res2_0_branch2c_bn_riv"
+external_input: "res2_1_branch2a_w"
+external_input: "res2_1_branch2a_bn_s"
+external_input: "res2_1_branch2a_bn_b"
+external_input: "res2_1_branch2a_bn_rm"
+external_input: "res2_1_branch2a_bn_riv"
+external_input: "res2_1_branch2b_w"
+external_input: "res2_1_branch2b_bn_s"
+external_input: "res2_1_branch2b_bn_b"
+external_input: "res2_1_branch2b_bn_rm"
+external_input: "res2_1_branch2b_bn_riv"
+external_input: "res2_1_branch2c_w"
+external_input: "res2_1_branch2c_bn_s"
+external_input: "res2_1_branch2c_bn_b"
+external_input: "res2_1_branch2c_bn_rm"
+external_input: "res2_1_branch2c_bn_riv"
+external_input: "res2_2_branch2a_w"
+external_input: "res2_2_branch2a_bn_s"
+external_input: "res2_2_branch2a_bn_b"
+external_input: "res2_2_branch2a_bn_rm"
+external_input: "res2_2_branch2a_bn_riv"
+external_input: "res2_2_branch2b_w"
+external_input: "res2_2_branch2b_bn_s"
+external_input: "res2_2_branch2b_bn_b"
+external_input: "res2_2_branch2b_bn_rm"
+external_input: "res2_2_branch2b_bn_riv"
+external_input: "res2_2_branch2c_w"
+external_input: "res2_2_branch2c_bn_s"
+external_input: "res2_2_branch2c_bn_b"
+external_input: "res2_2_branch2c_bn_rm"
+external_input: "res2_2_branch2c_bn_riv"
+external_input: "res3_0_branch1_w"
+external_input: "res3_0_branch1_bn_s"
+external_input: "res3_0_branch1_bn_b"
+external_input: "res3_0_branch1_bn_rm"
+external_input: "res3_0_branch1_bn_riv"
+external_input: "res3_0_branch2a_w"
+external_input: "res3_0_branch2a_bn_s"
+external_input: "res3_0_branch2a_bn_b"
+external_input: "res3_0_branch2a_bn_rm"
+external_input: "res3_0_branch2a_bn_riv"
+external_input: "res3_0_branch2b_w"
+external_input: "res3_0_branch2b_bn_s"
+external_input: "res3_0_branch2b_bn_b"
+external_input: "res3_0_branch2b_bn_rm"
+external_input: "res3_0_branch2b_bn_riv"
+external_input: "res3_0_branch2c_w"
+external_input: "res3_0_branch2c_bn_s"
+external_input: "res3_0_branch2c_bn_b"
+external_input: "res3_0_branch2c_bn_rm"
+external_input: "res3_0_branch2c_bn_riv"
+external_input: "res3_1_branch2a_w"
+external_input: "res3_1_branch2a_bn_s"
+external_input: "res3_1_branch2a_bn_b"
+external_input: "res3_1_branch2a_bn_rm"
+external_input: "res3_1_branch2a_bn_riv"
+external_input: "res3_1_branch2b_w"
+external_input: "res3_1_branch2b_bn_s"
+external_input: "res3_1_branch2b_bn_b"
+external_input: "res3_1_branch2b_bn_rm"
+external_input: "res3_1_branch2b_bn_riv"
+external_input: "res3_1_branch2c_w"
+external_input: "res3_1_branch2c_bn_s"
+external_input: "res3_1_branch2c_bn_b"
+external_input: "res3_1_branch2c_bn_rm"
+external_input: "res3_1_branch2c_bn_riv"
+external_input: "res3_2_branch2a_w"
+external_input: "res3_2_branch2a_bn_s"
+external_input: "res3_2_branch2a_bn_b"
+external_input: "res3_2_branch2a_bn_rm"
+external_input: "res3_2_branch2a_bn_riv"
+external_input: "res3_2_branch2b_w"
+external_input: "res3_2_branch2b_bn_s"
+external_input: "res3_2_branch2b_bn_b"
+external_input: "res3_2_branch2b_bn_rm"
+external_input: "res3_2_branch2b_bn_riv"
+external_input: "res3_2_branch2c_w"
+external_input: "res3_2_branch2c_bn_s"
+external_input: "res3_2_branch2c_bn_b"
+external_input: "res3_2_branch2c_bn_rm"
+external_input: "res3_2_branch2c_bn_riv"
+external_input: "res3_3_branch2a_w"
+external_input: "res3_3_branch2a_bn_s"
+external_input: "res3_3_branch2a_bn_b"
+external_input: "res3_3_branch2a_bn_rm"
+external_input: "res3_3_branch2a_bn_riv"
+external_input: "res3_3_branch2b_w"
+external_input: "res3_3_branch2b_bn_s"
+external_input: "res3_3_branch2b_bn_b"
+external_input: "res3_3_branch2b_bn_rm"
+external_input: "res3_3_branch2b_bn_riv"
+external_input: "res3_3_branch2c_w"
+external_input: "res3_3_branch2c_bn_s"
+external_input: "res3_3_branch2c_bn_b"
+external_input: "res3_3_branch2c_bn_rm"
+external_input: "res3_3_branch2c_bn_riv"
+external_input: "res4_0_branch1_w"
+external_input: "res4_0_branch1_bn_s"
+external_input: "res4_0_branch1_bn_b"
+external_input: "res4_0_branch1_bn_rm"
+external_input: "res4_0_branch1_bn_riv"
+external_input: "res4_0_branch2a_w"
+external_input: "res4_0_branch2a_bn_s"
+external_input: "res4_0_branch2a_bn_b"
+external_input: "res4_0_branch2a_bn_rm"
+external_input: "res4_0_branch2a_bn_riv"
+external_input: "res4_0_branch2b_w"
+external_input: "res4_0_branch2b_bn_s"
+external_input: "res4_0_branch2b_bn_b"
+external_input: "res4_0_branch2b_bn_rm"
+external_input: "res4_0_branch2b_bn_riv"
+external_input: "res4_0_branch2c_w"
+external_input: "res4_0_branch2c_bn_s"
+external_input: "res4_0_branch2c_bn_b"
+external_input: "res4_0_branch2c_bn_rm"
+external_input: "res4_0_branch2c_bn_riv"
+external_input: "res4_1_branch2a_w"
+external_input: "res4_1_branch2a_bn_s"
+external_input: "res4_1_branch2a_bn_b"
+external_input: "res4_1_branch2a_bn_rm"
+external_input: "res4_1_branch2a_bn_riv"
+external_input: "res4_1_branch2b_w"
+external_input: "res4_1_branch2b_bn_s"
+external_input: "res4_1_branch2b_bn_b"
+external_input: "res4_1_branch2b_bn_rm"
+external_input: "res4_1_branch2b_bn_riv"
+external_input: "res4_1_branch2c_w"
+external_input: "res4_1_branch2c_bn_s"
+external_input: "res4_1_branch2c_bn_b"
+external_input: "res4_1_branch2c_bn_rm"
+external_input: "res4_1_branch2c_bn_riv"
+external_input: "res4_2_branch2a_w"
+external_input: "res4_2_branch2a_bn_s"
+external_input: "res4_2_branch2a_bn_b"
+external_input: "res4_2_branch2a_bn_rm"
+external_input: "res4_2_branch2a_bn_riv"
+external_input: "res4_2_branch2b_w"
+external_input: "res4_2_branch2b_bn_s"
+external_input: "res4_2_branch2b_bn_b"
+external_input: "res4_2_branch2b_bn_rm"
+external_input: "res4_2_branch2b_bn_riv"
+external_input: "res4_2_branch2c_w"
+external_input: "res4_2_branch2c_bn_s"
+external_input: "res4_2_branch2c_bn_b"
+external_input: "res4_2_branch2c_bn_rm"
+external_input: "res4_2_branch2c_bn_riv"
+external_input: "res4_3_branch2a_w"
+external_input: "res4_3_branch2a_bn_s"
+external_input: "res4_3_branch2a_bn_b"
+external_input: "res4_3_branch2a_bn_rm"
+external_input: "res4_3_branch2a_bn_riv"
+external_input: "res4_3_branch2b_w"
+external_input: "res4_3_branch2b_bn_s"
+external_input: "res4_3_branch2b_bn_b"
+external_input: "res4_3_branch2b_bn_rm"
+external_input: "res4_3_branch2b_bn_riv"
+external_input: "res4_3_branch2c_w"
+external_input: "res4_3_branch2c_bn_s"
+external_input: "res4_3_branch2c_bn_b"
+external_input: "res4_3_branch2c_bn_rm"
+external_input: "res4_3_branch2c_bn_riv"
+external_input: "res4_4_branch2a_w"
+external_input: "res4_4_branch2a_bn_s"
+external_input: "res4_4_branch2a_bn_b"
+external_input: "res4_4_branch2a_bn_rm"
+external_input: "res4_4_branch2a_bn_riv"
+external_input: "res4_4_branch2b_w"
+external_input: "res4_4_branch2b_bn_s"
+external_input: "res4_4_branch2b_bn_b"
+external_input: "res4_4_branch2b_bn_rm"
+external_input: "res4_4_branch2b_bn_riv"
+external_input: "res4_4_branch2c_w"
+external_input: "res4_4_branch2c_bn_s"
+external_input: "res4_4_branch2c_bn_b"
+external_input: "res4_4_branch2c_bn_rm"
+external_input: "res4_4_branch2c_bn_riv"
+external_input: "res4_5_branch2a_w"
+external_input: "res4_5_branch2a_bn_s"
+external_input: "res4_5_branch2a_bn_b"
+external_input: "res4_5_branch2a_bn_rm"
+external_input: "res4_5_branch2a_bn_riv"
+external_input: "res4_5_branch2b_w"
+external_input: "res4_5_branch2b_bn_s"
+external_input: "res4_5_branch2b_bn_b"
+external_input: "res4_5_branch2b_bn_rm"
+external_input: "res4_5_branch2b_bn_riv"
+external_input: "res4_5_branch2c_w"
+external_input: "res4_5_branch2c_bn_s"
+external_input: "res4_5_branch2c_bn_b"
+external_input: "res4_5_branch2c_bn_rm"
+external_input: "res4_5_branch2c_bn_riv"
+external_input: "res5_0_branch1_w"
+external_input: "res5_0_branch1_bn_s"
+external_input: "res5_0_branch1_bn_b"
+external_input: "res5_0_branch1_bn_rm"
+external_input: "res5_0_branch1_bn_riv"
+external_input: "res5_0_branch2a_w"
+external_input: "res5_0_branch2a_bn_s"
+external_input: "res5_0_branch2a_bn_b"
+external_input: "res5_0_branch2a_bn_rm"
+external_input: "res5_0_branch2a_bn_riv"
+external_input: "res5_0_branch2b_w"
+external_input: "res5_0_branch2b_bn_s"
+external_input: "res5_0_branch2b_bn_b"
+external_input: "res5_0_branch2b_bn_rm"
+external_input: "res5_0_branch2b_bn_riv"
+external_input: "res5_0_branch2c_w"
+external_input: "res5_0_branch2c_bn_s"
+external_input: "res5_0_branch2c_bn_b"
+external_input: "res5_0_branch2c_bn_rm"
+external_input: "res5_0_branch2c_bn_riv"
+external_input: "res5_1_branch2a_w"
+external_input: "res5_1_branch2a_bn_s"
+external_input: "res5_1_branch2a_bn_b"
+external_input: "res5_1_branch2a_bn_rm"
+external_input: "res5_1_branch2a_bn_riv"
+external_input: "res5_1_branch2b_w"
+external_input: "res5_1_branch2b_bn_s"
+external_input: "res5_1_branch2b_bn_b"
+external_input: "res5_1_branch2b_bn_rm"
+external_input: "res5_1_branch2b_bn_riv"
+external_input: "res5_1_branch2c_w"
+external_input: "res5_1_branch2c_bn_s"
+external_input: "res5_1_branch2c_bn_b"
+external_input: "res5_1_branch2c_bn_rm"
+external_input: "res5_1_branch2c_bn_riv"
+external_input: "res5_2_branch2a_w"
+external_input: "res5_2_branch2a_bn_s"
+external_input: "res5_2_branch2a_bn_b"
+external_input: "res5_2_branch2a_bn_rm"
+external_input: "res5_2_branch2a_bn_riv"
+external_input: "res5_2_branch2b_w"
+external_input: "res5_2_branch2b_bn_s"
+external_input: "res5_2_branch2b_bn_b"
+external_input: "res5_2_branch2b_bn_rm"
+external_input: "res5_2_branch2b_bn_riv"
+external_input: "res5_2_branch2c_w"
+external_input: "res5_2_branch2c_bn_s"
+external_input: "res5_2_branch2c_bn_b"
+external_input: "res5_2_branch2c_bn_rm"
+external_input: "res5_2_branch2c_bn_riv"
+external_input: "osme_fc1_1_w"
+external_input: "osme_fc1_1_b"
+external_input: "osme_fc2_1_w"
+external_input: "osme_fc2_1_b"
+external_input: "attention_1_w"
+external_input: "attention_1_b"
+external_input: "osme_fc1_2_w"
+external_input: "osme_fc1_2_b"
+external_input: "osme_fc2_2_w"
+external_input: "osme_fc2_2_b"
+external_input: "attention_2_w"
+external_input: "attention_2_b"
+external_input: "bi_attention_pred_w"
+external_input: "bi_attention_pred_b"
+
+[INFO] finish running src/param_statistics.py, total_time is 4.948s

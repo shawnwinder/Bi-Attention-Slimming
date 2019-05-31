@@ -1,0 +1,804 @@
+[INFO] start running src/param_statistics.py ...
+[INFO] start running initialize ...
+[INFO] finish running initialize ...
+
+[INFO] start running build_validation_model ...
+[INFO] finish running build_validation_model ...
+
+====================================================================================================
+[u'data', u'conv1_w', u'conv1_b']
+[u'conv1']
+[name: "kernel"
+i: 7
+, name: "exhaustive_search"
+i: 0
+, name: "pad"
+i: 3
+, name: "order"
+s: "NCHW"
+, name: "stride"
+i: 2
+]
+
+====================================================================================================
+[u'pool1', u'res2_0_branch1_w']
+[u'res2_0_branch1']
+[name: "kernel"
+i: 1
+, name: "exhaustive_search"
+i: 0
+, name: "pad"
+i: 0
+, name: "order"
+s: "NCHW"
+, name: "stride"
+i: 1
+]
+
+====================================================================================================
+[u'pool1', u'res2_0_branch2a_w']
+[u'res2_0_branch2a']
+[name: "kernel"
+i: 1
+, name: "exhaustive_search"
+i: 0
+, name: "pad"
+i: 0
+, name: "order"
+s: "NCHW"
+, name: "stride"
+i: 1
+]
+
+====================================================================================================
+[u'res2_0_branch2a_bn', u'res2_0_branch2b_w']
+[u'res2_0_branch2b']
+[name: "kernel"
+i: 3
+, name: "exhaustive_search"
+i: 0
+, name: "pad"
+i: 1
+, name: "order"
+s: "NCHW"
+, name: "stride"
+i: 1
+]
+
+====================================================================================================
+[u'res2_0_branch2b_bn', u'res2_0_branch2c_w']
+[u'res2_0_branch2c']
+[name: "kernel"
+i: 1
+, name: "exhaustive_search"
+i: 0
+, name: "pad"
+i: 0
+, name: "order"
+s: "NCHW"
+, name: "stride"
+i: 1
+]
+
+====================================================================================================
+[u'res2_0_branch2c_bn', u'res2_1_branch2a_w']
+[u'res2_1_branch2a']
+[name: "kernel"
+i: 1
+, name: "exhaustive_search"
+i: 0
+, name: "pad"
+i: 0
+, name: "order"
+s: "NCHW"
+, name: "stride"
+i: 1
+]
+
+====================================================================================================
+[u'res2_1_branch2a_bn', u'res2_1_branch2b_w']
+[u'res2_1_branch2b']
+[name: "kernel"
+i: 3
+, name: "exhaustive_search"
+i: 0
+, name: "pad"
+i: 1
+, name: "order"
+s: "NCHW"
+, name: "stride"
+i: 1
+]
+
+====================================================================================================
+[u'res2_1_branch2b_bn', u'res2_1_branch2c_w']
+[u'res2_1_branch2c']
+[name: "kernel"
+i: 1
+, name: "exhaustive_search"
+i: 0
+, name: "pad"
+i: 0
+, name: "order"
+s: "NCHW"
+, name: "stride"
+i: 1
+]
+
+====================================================================================================
+[u'res2_1_branch2c_bn', u'res2_2_branch2a_w']
+[u'res2_2_branch2a']
+[name: "kernel"
+i: 1
+, name: "exhaustive_search"
+i: 0
+, name: "pad"
+i: 0
+, name: "order"
+s: "NCHW"
+, name: "stride"
+i: 1
+]
+
+====================================================================================================
+[u'res2_2_branch2a_bn', u'res2_2_branch2b_w']
+[u'res2_2_branch2b']
+[name: "kernel"
+i: 3
+, name: "exhaustive_search"
+i: 0
+, name: "pad"
+i: 1
+, name: "order"
+s: "NCHW"
+, name: "stride"
+i: 1
+]
+
+====================================================================================================
+[u'res2_2_branch2b_bn', u'res2_2_branch2c_w']
+[u'res2_2_branch2c']
+[name: "kernel"
+i: 1
+, name: "exhaustive_search"
+i: 0
+, name: "pad"
+i: 0
+, name: "order"
+s: "NCHW"
+, name: "stride"
+i: 1
+]
+
+====================================================================================================
+[u'res2_2_branch2c_bn', u'res3_0_branch1_w']
+[u'res3_0_branch1']
+[name: "kernel"
+i: 1
+, name: "exhaustive_search"
+i: 0
+, name: "pad"
+i: 0
+, name: "order"
+s: "NCHW"
+, name: "stride"
+i: 2
+]
+
+====================================================================================================
+[u'res2_2_branch2c_bn', u'res3_0_branch2a_w']
+[u'res3_0_branch2a']
+[name: "kernel"
+i: 1
+, name: "exhaustive_search"
+i: 0
+, name: "pad"
+i: 0
+, name: "order"
+s: "NCHW"
+, name: "stride"
+i: 2
+]
+
+====================================================================================================
+[u'res3_0_branch2a_bn', u'res3_0_branch2b_w']
+[u'res3_0_branch2b']
+[name: "kernel"
+i: 3
+, name: "exhaustive_search"
+i: 0
+, name: "pad"
+i: 1
+, name: "order"
+s: "NCHW"
+, name: "stride"
+i: 1
+]
+
+====================================================================================================
+[u'res3_0_branch2b_bn', u'res3_0_branch2c_w']
+[u'res3_0_branch2c']
+[name: "kernel"
+i: 1
+, name: "exhaustive_search"
+i: 0
+, name: "pad"
+i: 0
+, name: "order"
+s: "NCHW"
+, name: "stride"
+i: 1
+]
+
+====================================================================================================
+[u'res3_0_branch2c_bn', u'res3_1_branch2a_w']
+[u'res3_1_branch2a']
+[name: "kernel"
+i: 1
+, name: "exhaustive_search"
+i: 0
+, name: "pad"
+i: 0
+, name: "order"
+s: "NCHW"
+, name: "stride"
+i: 1
+]
+
+====================================================================================================
+[u'res3_1_branch2a_bn', u'res3_1_branch2b_w']
+[u'res3_1_branch2b']
+[name: "kernel"
+i: 3
+, name: "exhaustive_search"
+i: 0
+, name: "pad"
+i: 1
+, name: "order"
+s: "NCHW"
+, name: "stride"
+i: 1
+]
+
+====================================================================================================
+[u'res3_1_branch2b_bn', u'res3_1_branch2c_w']
+[u'res3_1_branch2c']
+[name: "kernel"
+i: 1
+, name: "exhaustive_search"
+i: 0
+, name: "pad"
+i: 0
+, name: "order"
+s: "NCHW"
+, name: "stride"
+i: 1
+]
+
+====================================================================================================
+[u'res3_1_branch2c_bn', u'res3_2_branch2a_w']
+[u'res3_2_branch2a']
+[name: "kernel"
+i: 1
+, name: "exhaustive_search"
+i: 0
+, name: "pad"
+i: 0
+, name: "order"
+s: "NCHW"
+, name: "stride"
+i: 1
+]
+
+====================================================================================================
+[u'res3_2_branch2a_bn', u'res3_2_branch2b_w']
+[u'res3_2_branch2b']
+[name: "kernel"
+i: 3
+, name: "exhaustive_search"
+i: 0
+, name: "pad"
+i: 1
+, name: "order"
+s: "NCHW"
+, name: "stride"
+i: 1
+]
+
+====================================================================================================
+[u'res3_2_branch2b_bn', u'res3_2_branch2c_w']
+[u'res3_2_branch2c']
+[name: "kernel"
+i: 1
+, name: "exhaustive_search"
+i: 0
+, name: "pad"
+i: 0
+, name: "order"
+s: "NCHW"
+, name: "stride"
+i: 1
+]
+
+====================================================================================================
+[u'res3_2_branch2c_bn', u'res3_3_branch2a_w']
+[u'res3_3_branch2a']
+[name: "kernel"
+i: 1
+, name: "exhaustive_search"
+i: 0
+, name: "pad"
+i: 0
+, name: "order"
+s: "NCHW"
+, name: "stride"
+i: 1
+]
+
+====================================================================================================
+[u'res3_3_branch2a_bn', u'res3_3_branch2b_w']
+[u'res3_3_branch2b']
+[name: "kernel"
+i: 3
+, name: "exhaustive_search"
+i: 0
+, name: "pad"
+i: 1
+, name: "order"
+s: "NCHW"
+, name: "stride"
+i: 1
+]
+
+====================================================================================================
+[u'res3_3_branch2b_bn', u'res3_3_branch2c_w']
+[u'res3_3_branch2c']
+[name: "kernel"
+i: 1
+, name: "exhaustive_search"
+i: 0
+, name: "pad"
+i: 0
+, name: "order"
+s: "NCHW"
+, name: "stride"
+i: 1
+]
+
+====================================================================================================
+[u'res3_3_branch2c_bn', u'res4_0_branch1_w']
+[u'res4_0_branch1']
+[name: "kernel"
+i: 1
+, name: "exhaustive_search"
+i: 0
+, name: "pad"
+i: 0
+, name: "order"
+s: "NCHW"
+, name: "stride"
+i: 2
+]
+
+====================================================================================================
+[u'res3_3_branch2c_bn', u'res4_0_branch2a_w']
+[u'res4_0_branch2a']
+[name: "kernel"
+i: 1
+, name: "exhaustive_search"
+i: 0
+, name: "pad"
+i: 0
+, name: "order"
+s: "NCHW"
+, name: "stride"
+i: 2
+]
+
+====================================================================================================
+[u'res4_0_branch2a_bn', u'res4_0_branch2b_w']
+[u'res4_0_branch2b']
+[name: "kernel"
+i: 3
+, name: "exhaustive_search"
+i: 0
+, name: "pad"
+i: 1
+, name: "order"
+s: "NCHW"
+, name: "stride"
+i: 1
+]
+
+====================================================================================================
+[u'res4_0_branch2b_bn', u'res4_0_branch2c_w']
+[u'res4_0_branch2c']
+[name: "kernel"
+i: 1
+, name: "exhaustive_search"
+i: 0
+, name: "pad"
+i: 0
+, name: "order"
+s: "NCHW"
+, name: "stride"
+i: 1
+]
+
+====================================================================================================
+[u'res4_0_branch2c_bn', u'res4_1_branch2a_w']
+[u'res4_1_branch2a']
+[name: "kernel"
+i: 1
+, name: "exhaustive_search"
+i: 0
+, name: "pad"
+i: 0
+, name: "order"
+s: "NCHW"
+, name: "stride"
+i: 1
+]
+
+====================================================================================================
+[u'res4_1_branch2a_bn', u'res4_1_branch2b_w']
+[u'res4_1_branch2b']
+[name: "kernel"
+i: 3
+, name: "exhaustive_search"
+i: 0
+, name: "pad"
+i: 1
+, name: "order"
+s: "NCHW"
+, name: "stride"
+i: 1
+]
+
+====================================================================================================
+[u'res4_1_branch2b_bn', u'res4_1_branch2c_w']
+[u'res4_1_branch2c']
+[name: "kernel"
+i: 1
+, name: "exhaustive_search"
+i: 0
+, name: "pad"
+i: 0
+, name: "order"
+s: "NCHW"
+, name: "stride"
+i: 1
+]
+
+====================================================================================================
+[u'res4_1_branch2c_bn', u'res4_2_branch2a_w']
+[u'res4_2_branch2a']
+[name: "kernel"
+i: 1
+, name: "exhaustive_search"
+i: 0
+, name: "pad"
+i: 0
+, name: "order"
+s: "NCHW"
+, name: "stride"
+i: 1
+]
+
+====================================================================================================
+[u'res4_2_branch2a_bn', u'res4_2_branch2b_w']
+[u'res4_2_branch2b']
+[name: "kernel"
+i: 3
+, name: "exhaustive_search"
+i: 0
+, name: "pad"
+i: 1
+, name: "order"
+s: "NCHW"
+, name: "stride"
+i: 1
+]
+
+====================================================================================================
+[u'res4_2_branch2b_bn', u'res4_2_branch2c_w']
+[u'res4_2_branch2c']
+[name: "kernel"
+i: 1
+, name: "exhaustive_search"
+i: 0
+, name: "pad"
+i: 0
+, name: "order"
+s: "NCHW"
+, name: "stride"
+i: 1
+]
+
+====================================================================================================
+[u'res4_2_branch2c_bn', u'res4_3_branch2a_w']
+[u'res4_3_branch2a']
+[name: "kernel"
+i: 1
+, name: "exhaustive_search"
+i: 0
+, name: "pad"
+i: 0
+, name: "order"
+s: "NCHW"
+, name: "stride"
+i: 1
+]
+
+====================================================================================================
+[u'res4_3_branch2a_bn', u'res4_3_branch2b_w']
+[u'res4_3_branch2b']
+[name: "kernel"
+i: 3
+, name: "exhaustive_search"
+i: 0
+, name: "pad"
+i: 1
+, name: "order"
+s: "NCHW"
+, name: "stride"
+i: 1
+]
+
+====================================================================================================
+[u'res4_3_branch2b_bn', u'res4_3_branch2c_w']
+[u'res4_3_branch2c']
+[name: "kernel"
+i: 1
+, name: "exhaustive_search"
+i: 0
+, name: "pad"
+i: 0
+, name: "order"
+s: "NCHW"
+, name: "stride"
+i: 1
+]
+
+====================================================================================================
+[u'res4_3_branch2c_bn', u'res4_4_branch2a_w']
+[u'res4_4_branch2a']
+[name: "kernel"
+i: 1
+, name: "exhaustive_search"
+i: 0
+, name: "pad"
+i: 0
+, name: "order"
+s: "NCHW"
+, name: "stride"
+i: 1
+]
+
+====================================================================================================
+[u'res4_4_branch2a_bn', u'res4_4_branch2b_w']
+[u'res4_4_branch2b']
+[name: "kernel"
+i: 3
+, name: "exhaustive_search"
+i: 0
+, name: "pad"
+i: 1
+, name: "order"
+s: "NCHW"
+, name: "stride"
+i: 1
+]
+
+====================================================================================================
+[u'res4_4_branch2b_bn', u'res4_4_branch2c_w']
+[u'res4_4_branch2c']
+[name: "kernel"
+i: 1
+, name: "exhaustive_search"
+i: 0
+, name: "pad"
+i: 0
+, name: "order"
+s: "NCHW"
+, name: "stride"
+i: 1
+]
+
+====================================================================================================
+[u'res4_4_branch2c_bn', u'res4_5_branch2a_w']
+[u'res4_5_branch2a']
+[name: "kernel"
+i: 1
+, name: "exhaustive_search"
+i: 0
+, name: "pad"
+i: 0
+, name: "order"
+s: "NCHW"
+, name: "stride"
+i: 1
+]
+
+====================================================================================================
+[u'res4_5_branch2a_bn', u'res4_5_branch2b_w']
+[u'res4_5_branch2b']
+[name: "kernel"
+i: 3
+, name: "exhaustive_search"
+i: 0
+, name: "pad"
+i: 1
+, name: "order"
+s: "NCHW"
+, name: "stride"
+i: 1
+]
+
+====================================================================================================
+[u'res4_5_branch2b_bn', u'res4_5_branch2c_w']
+[u'res4_5_branch2c']
+[name: "kernel"
+i: 1
+, name: "exhaustive_search"
+i: 0
+, name: "pad"
+i: 0
+, name: "order"
+s: "NCHW"
+, name: "stride"
+i: 1
+]
+
+====================================================================================================
+[u'res4_5_branch2c_bn', u'res5_0_branch1_w']
+[u'res5_0_branch1']
+[name: "kernel"
+i: 1
+, name: "exhaustive_search"
+i: 0
+, name: "pad"
+i: 0
+, name: "order"
+s: "NCHW"
+, name: "stride"
+i: 2
+]
+
+====================================================================================================
+[u'res4_5_branch2c_bn', u'res5_0_branch2a_w']
+[u'res5_0_branch2a']
+[name: "kernel"
+i: 1
+, name: "exhaustive_search"
+i: 0
+, name: "pad"
+i: 0
+, name: "order"
+s: "NCHW"
+, name: "stride"
+i: 2
+]
+
+====================================================================================================
+[u'res5_0_branch2a_bn', u'res5_0_branch2b_w']
+[u'res5_0_branch2b']
+[name: "kernel"
+i: 3
+, name: "exhaustive_search"
+i: 0
+, name: "pad"
+i: 1
+, name: "order"
+s: "NCHW"
+, name: "stride"
+i: 1
+]
+
+====================================================================================================
+[u'res5_0_branch2b_bn', u'res5_0_branch2c_w']
+[u'res5_0_branch2c']
+[name: "kernel"
+i: 1
+, name: "exhaustive_search"
+i: 0
+, name: "pad"
+i: 0
+, name: "order"
+s: "NCHW"
+, name: "stride"
+i: 1
+]
+
+====================================================================================================
+[u'res5_0_branch2c_bn', u'res5_1_branch2a_w']
+[u'res5_1_branch2a']
+[name: "kernel"
+i: 1
+, name: "exhaustive_search"
+i: 0
+, name: "pad"
+i: 0
+, name: "order"
+s: "NCHW"
+, name: "stride"
+i: 1
+]
+
+====================================================================================================
+[u'res5_1_branch2a_bn', u'res5_1_branch2b_w']
+[u'res5_1_branch2b']
+[name: "kernel"
+i: 3
+, name: "exhaustive_search"
+i: 0
+, name: "pad"
+i: 1
+, name: "order"
+s: "NCHW"
+, name: "stride"
+i: 1
+]
+
+====================================================================================================
+[u'res5_1_branch2b_bn', u'res5_1_branch2c_w']
+[u'res5_1_branch2c']
+[name: "kernel"
+i: 1
+, name: "exhaustive_search"
+i: 0
+, name: "pad"
+i: 0
+, name: "order"
+s: "NCHW"
+, name: "stride"
+i: 1
+]
+
+====================================================================================================
+[u'res5_1_branch2c_bn', u'res5_2_branch2a_w']
+[u'res5_2_branch2a']
+[name: "kernel"
+i: 1
+, name: "exhaustive_search"
+i: 0
+, name: "pad"
+i: 0
+, name: "order"
+s: "NCHW"
+, name: "stride"
+i: 1
+]
+
+====================================================================================================
+[u'res5_2_branch2a_bn', u'res5_2_branch2b_w']
+[u'res5_2_branch2b']
+[name: "kernel"
+i: 3
+, name: "exhaustive_search"
+i: 0
+, name: "pad"
+i: 1
+, name: "order"
+s: "NCHW"
+, name: "stride"
+i: 1
+]
+
+====================================================================================================
+[u'res5_2_branch2b_bn', u'res5_2_branch2c_w']
+[u'res5_2_branch2c']
+[name: "kernel"
+i: 1
+, name: "exhaustive_search"
+i: 0
+, name: "pad"
+i: 0
+, name: "order"
+s: "NCHW"
+, name: "stride"
+i: 1
+]
+
+total conv ops: 53
+[INFO] finish running src/param_statistics.py, total_time is 4.543s

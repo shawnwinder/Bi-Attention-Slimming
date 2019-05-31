@@ -1,0 +1,27 @@
+[INFO] start running src/param_statistics.py ...
+[INFO] start running initialize ...
+[INFO] finish running initialize ...
+
+[INFO] start running build_validation_model ...
+[INFO] finish running build_validation_model ...
+
+name: "bat_slimming_validation_model_init"
+op {
+  output: "val_db_reader"
+  name: ""
+  type: "CreateDB"
+  arg {
+    name: "db_type"
+    s: "lmdb"
+  }
+  arg {
+    name: "db"
+    s: "/home/zhibin/wangxiao/datasets/caffe2_lmdb/stanford_cars_encoded_val_lmdb"
+  }
+  device_option {
+    device_type: 1
+    cuda_gpu_id: 0
+  }
+}
+
+[INFO] finish running src/param_statistics.py, total_time is 4.496s
